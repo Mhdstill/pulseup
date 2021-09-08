@@ -20,6 +20,8 @@ class PulseUpController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $pulseup = $form->getData();
 
+            echo "ok";
+
             return $this->redirectToRoute('process');
         }
 
