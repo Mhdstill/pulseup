@@ -5,17 +5,19 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\PulseUpTypeFormType;
 
 class PulseUpController extends AbstractController
 {
     /**
-     * @Route("/pulse/up", name="pulse_up")
+     * @Route("/pulseup", name="pulse_up")
      */
     public function index(): Response
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/PulseUpController.php',
+        $form = $this->createForm(PulseUpTypeFormType::class);
+
+        return $this->render('pulseup/index.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }
