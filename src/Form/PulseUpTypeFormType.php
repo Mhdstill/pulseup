@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class PulseUpTypeFormType extends AbstractType
 {
@@ -13,6 +14,7 @@ class PulseUpTypeFormType extends AbstractType
     {
         $builder
             ->add('submitFile', FileType::class)
+            ->add('save', SubmitType::class)
         ;
     }
 
