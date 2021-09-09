@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Service\BalanceService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,7 @@ class PulseUpController extends AbstractController
     /**
      * @Route("/pulseup/form", name="pulse_up")/home/digiteka/Bureau/symfony-bohemebox
      */
-    public function index(Request $request, BalanceService $balanceService): Response
+    public function index(Request $request, BalanceService $balanceService, UserRepository $userRepository): Response
     {
         $form = $this->createForm(PulseUpTypeFormType::class);
 
@@ -28,21 +29,22 @@ class PulseUpController extends AbstractController
             if (($handle = fopen($file->getPathname(), "r")) !== false) {
                 $headerCount = 0;
                 while (($data = fgetcsv($handle)) !== false) {
-                    if($headerCount == 0) {
+                    if ($headerCount == 0) {
                         $headerCount++;
                         continue;
                     }
+                    $line = explode(";", $data[0]);
+
                     $entityManager = $this->getDoctrine()->getManager();
 
-
-                    $line = explode(";",$data[0]);
-
-                    //CREATE USER IN DB
-                    $user = new User();
-                    $user->setId($line[0]);
-                    $entityManager->persist($user);
-                    $entityManager->flush();
-
+                    $userId = $line[0];
+                    $user = $userRepository->find($userId);
+                    if (!$user) {
+                        $user = new User();
+                        $user->setId($line[0]);
+                        $entityManager->persist($user);
+                        $entityManager->flush();
+                    }
 
                     //CREATE BALANCE IN DB
                     $points = 0;
@@ -51,7 +53,7 @@ class PulseUpController extends AbstractController
                     $points += $balanceService->thirdProductCalculate($line[3]);
                     $points += $balanceService->fourthProductCalculate($line[4]);
 
-                    echo "@@@".$points."@@@<br/>";
+                    echo "@@@" . $points . "@@@<br/>";
 
                 }
                 fclose($handle);
@@ -59,7 +61,7 @@ class PulseUpController extends AbstractController
                 print_r($test);
             }
 
-           // return $this->redirectToRoute('user_balance',);
+            // return $this->redirectToRoute('user_balance',);
         }
 
         return $this->render('pulseup/index.html.twig', [
