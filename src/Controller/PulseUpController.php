@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 class PulseUpController extends AbstractController
 {
     /**
-     * @Route("/pulseup/form", name="pulse_up")
+     * @Route("/pulseup/form", name="pulse_up")/home/digiteka/Bureau/symfony-bohemebox
      */
     public function index(Request $request): Response
     {
@@ -24,12 +24,14 @@ class PulseUpController extends AbstractController
 
             if (($handle = fopen($file->getPathname(), "r")) !== false) {
                 while (($data = fgetcsv($handle)) !== false) {
-                    echo "#".$data[0]."#";
+                    foreach($data as $d){
+                        echo "#".$data[$d]."#<br/>";
+                    }
                 }
                 fclose($handle);
             }
 
-           // return $this->redirectToRoute('process',);
+           // return $this->redirectToRoute('user_balance',);
         }
 
         return $this->render('pulseup/index.html.twig', [
@@ -38,10 +40,11 @@ class PulseUpController extends AbstractController
     }
 
     /**
-     * @Route("/pulseup/process", name="process")
+     * @Route("/user/{id}/balance", name="user_balance")
      */
-    public function process(): Response
+    public function userBalance($id): Response
     {
+
         return $this->render('pulseup/process.html.twig', [
         ]);
     }
