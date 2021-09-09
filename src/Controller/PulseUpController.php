@@ -22,6 +22,7 @@ class PulseUpController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('submitFile')->getData();
 
+            $test = [];
             if (($handle = fopen($file->getPathname(), "r")) !== false) {
                 $headerCount = 0;
                 while (($data = fgetcsv($handle)) !== false) {
