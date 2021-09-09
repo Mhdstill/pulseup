@@ -27,8 +27,8 @@ class PulseUpController extends AbstractController
                 $headerCount = 0;
                 while (($data = fgetcsv($handle)) !== false) {
                     if($headerCount == 0) {
-                        continue;
                         $headerCount++;
+                        continue;
                     }
 
                     $test = explode(";",$data[0]);
