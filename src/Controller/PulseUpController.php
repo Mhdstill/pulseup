@@ -23,10 +23,17 @@ class PulseUpController extends AbstractController
             $file = $form->get('submitFile')->getData();
 
             if (($handle = fopen($file->getPathname(), "r")) !== false) {
+                $headerCount = 0;
                 while (($data = fgetcsv($handle)) !== false) {
+                    if($headerCount == 0)
+                        continue;
+
+                    $test = explode(";",$data[0]);
                     echo "#".$data[0]."#<br/>";
                 }
                 fclose($handle);
+
+                print_r($test);
             }
 
            // return $this->redirectToRoute('user_balance',);
