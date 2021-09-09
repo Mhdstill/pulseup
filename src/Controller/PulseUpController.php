@@ -31,6 +31,7 @@ class PulseUpController extends AbstractController
 
                     $test = explode(";",$data[0]);
                     echo "#".$data[0]."#<br/>";
+                    $headerCount++;
                 }
                 fclose($handle);
 
