@@ -23,9 +23,8 @@ class PulseUpController extends AbstractController
             $file = $form->get('submitFile')->getData();
 
             if (($handle = fopen($file->getPathname(), "r")) !== false) {
-                $i=0;
                 while (($data = fgetcsv($handle)) !== false) {
-                        echo "#".$data[$i++]."#<br/>";
+                    echo "#".$data[0]."#";
                 }
                 fclose($handle);
             }
