@@ -13,7 +13,6 @@ class User
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -27,6 +26,13 @@ class User
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $firstname;
+
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {

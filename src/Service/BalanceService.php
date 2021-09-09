@@ -30,4 +30,25 @@ class BalanceService
 
         return $periodPoints;
     }
+
+    public function firstProductCalculate($nbProduct1){
+        return $nbProduct1 * 5;
+    }
+
+    public function secondProductCalculate($nbProduct2, $product1Selled = true){
+        if(!$product1Selled){
+            return 0;
+        }
+
+        return $nbProduct2 * 5;
+    }
+
+    public function thirdProductCalculate($nbProduct3){
+        return floor($nbProduct3/2) * 15;
+
+    }
+
+    public function fourthProductCalculate($nbProduct4){
+        return $nbProduct4 * 35;
+    }
 }

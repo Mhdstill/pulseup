@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Service\BalanceService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +15,7 @@ class PulseUpController extends AbstractController
     /**
      * @Route("/pulseup/form", name="pulse_up")/home/digiteka/Bureau/symfony-bohemebox
      */
-    public function index(Request $request): Response
+    public function index(Request $request, BalanceService $balanceService): Response
     {
         $form = $this->createForm(PulseUpTypeFormType::class);
 
@@ -30,9 +32,27 @@ class PulseUpController extends AbstractController
                         $headerCount++;
                         continue;
                     }
+                    $entityManager = $this->getDoctrine()->getManager();
 
-                    $test = explode(";",$data[0]);
-                    echo "#".$data[0]."#<br/>";
+
+                    $line = explode(";",$data[0]);
+
+                    //CREATE USER IN DB
+                    $user = new User();
+                    $user->setId($line[0]);
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+
+
+                    //CREATE BALANCE IN DB
+                    $points = 0;
+                    $points += $balanceService->firstProductCalculate($line[1]);
+                    $points += $balanceService->secondProductCalculate($line[2]);
+                    $points += $balanceService->thirdProductCalculate($line[3]);
+                    $points += $balanceService->fourthProductCalculate($line[4]);
+
+                    echo "@@@".$points."@@@<br/>";
+
                 }
                 fclose($handle);
 
