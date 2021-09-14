@@ -29,7 +29,6 @@ class PulseUpController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('submitFile')->getData();
 
-            $test = [];
             if (($handle = fopen($file->getPathname(), "r")) !== false) {
                 $headerCount = 0;
                 while (($data = fgetcsv($handle)) !== false) {
@@ -78,7 +77,7 @@ class PulseUpController extends AbstractController
                 fclose($handle);
             }
 
-          //  return $this->redirectToRoute('user_balance',["id"=>123456789]);
+            return $this->redirectToRoute('user_balance',["id"=>123456789]);
         }
 
         return $this->render('pulseup/index.html.twig', [
@@ -102,9 +101,7 @@ class PulseUpController extends AbstractController
             $i++;
         }
 
-        var_dump($periodPoints);
-
-        return $this->render('pulseup/process.html.twig', [
+        return $this->render('pulseup/process.html.twig', ["datas"=>$periodPoints
         ]);
     }
 }
