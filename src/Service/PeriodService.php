@@ -7,8 +7,7 @@ namespace App\Service;
 class PeriodService
 {
 
-    public function getPeriodByDate($date){
-
-
+    public function frDateToUs($date){
+        return implode('-',array_reverse  (explode('/',$date)));
     }
 }

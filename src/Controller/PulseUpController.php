@@ -8,6 +8,7 @@ use App\Repository\BalanceRepository;
 use App\Repository\PeriodRepository;
 use App\Repository\UserRepository;
 use App\Service\BalanceService;
+use App\Service\PeriodService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +20,7 @@ class PulseUpController extends AbstractController
     /**
      * @Route("/pulseup/form", name="pulse_up")/home/digiteka/Bureau/symfony-bohemebox
      */
-    public function index(Request $request, BalanceService $balanceService, UserRepository $userRepository, PeriodRepository $periodRepository): Response
+    public function index(Request $request, BalanceService $balanceService, UserRepository $userRepository, PeriodRepository $periodRepository, PeriodService $periodService): Response
     {
         $form = $this->createForm(PulseUpTypeFormType::class);
 
@@ -57,11 +58,10 @@ class PulseUpController extends AbstractController
                     $points += $balanceService->thirdProductCalculate($line[3]);
                     $points += $balanceService->fourthProductCalculate($line[4]);
 
-                    $currentDate = new \DateTime();
                     $date = $line[count($line)-1];
-                    var_dump($date);
+                    $date = $periodService->frDateToUs($date);
 
-                    $period = $periodRepository->findOneByDate($currentDate);
+                    $period = $periodRepository->findOneByDate($date);
 
                     if($period) {
                         $balance = new Balance();
