@@ -86,7 +86,7 @@ class PulseUpController extends AbstractController
     /**
      * @Route("/user/{id}/balance", name="user_balance")
      */
-    public function userBalance($id, BalanceRepository $balanceRepository, UserRepository $userRepository, PeriodRepository $periodRepository): Response
+    public function userBalance($id, BalanceService $balanceService, BalanceRepository $balanceRepository, UserRepository $userRepository, PeriodRepository $periodRepository): Response
     {
         $periodPoints = [[]];
         $periods = $periodRepository->findAll();
@@ -94,9 +94,9 @@ class PulseUpController extends AbstractController
         foreach($periods as $period){
             $points = $balanceRepository->getSum($id, $period->getId());
             print_r($points);
-            $periodPoints[$i]["period"] = $period->getLabel();
-            $periodPoints[$i]["points"] = $points;
-            $periodPoints[$i]["euros"] = $points  * self::coefficientEuros;
+//            $periodPoints[$i]["period"] = $period->getLabel();
+  //          $periodPoints[$i]["points"] = $points;
+    //        $periodPoints[$i]["euros"] =  $balanceService->pointsToEuros($points);
             $i++;
         }
 
