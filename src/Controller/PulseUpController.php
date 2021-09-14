@@ -65,6 +65,7 @@ class PulseUpController extends AbstractController
                         $balance->setPoints($points);
                         $balance->setUserId($userId);
                         $balance->setPeriodId($period->getId());
+                        $balance->setCreatedAt(new \DateTime());
                         $entityManager->persist($balance);
                         $entityManager->flush();
                     }
