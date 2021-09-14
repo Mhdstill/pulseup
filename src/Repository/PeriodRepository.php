@@ -56,7 +56,7 @@ class PeriodRepository extends ServiceEntityRepository
            // ->andWhere('p.date2 > :date')
             ->setParameter('date', $date)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult();
         ;
     }
 }
