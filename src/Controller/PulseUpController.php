@@ -70,15 +70,12 @@ class PulseUpController extends AbstractController
                         $entityManager->flush();
                     }
 
-                    echo "@@@" . $points . "@@@<br/>";
 
                 }
                 fclose($handle);
-
-                print_r($test);
             }
 
-            // return $this->redirectToRoute('user_balance',);
+            return $this->redirectToRoute('user_balance',["id"=>123456789]);
         }
 
         return $this->render('pulseup/index.html.twig', [
