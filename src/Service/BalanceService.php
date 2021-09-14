@@ -22,6 +22,7 @@ class BalanceService
         $i = 0;
         foreach($periods as $period){
             $points = $balanceRepository->getSum($userId, $period->getId());
+            var_dump($points);
             $periodPoints[$i]["period"] = $period->getLabel();
             $periodPoints[$i]["points"] = $points;
             $periodPoints[$i]["euros"] = $points  * self::coefficientEuros;
@@ -51,4 +52,9 @@ class BalanceService
     public function fourthProductCalculate($nbProduct4){
         return $nbProduct4 * 35;
     }
+
+    public function pointsToEuros($points){
+        return $points * self::coefficientEuros;
+    }
+
 }

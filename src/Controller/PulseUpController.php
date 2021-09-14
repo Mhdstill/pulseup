@@ -86,8 +86,21 @@ class PulseUpController extends AbstractController
     /**
      * @Route("/user/{id}/balance", name="user_balance")
      */
-    public function userBalance($id): Response
+    public function userBalance($id, BalanceRepository $balanceRepository, UserRepository $userRepository, PeriodRepository $periodRepository): Response
     {
+        $periodPoints = [[]];
+        $periods = $periodRepository->findAll();
+        $i = 0;
+        foreach($periods as $period){
+            $points = $balanceRepository->getSum($id, $period->getId());
+            var_dump($points);
+            $periodPoints[$i]["period"] = $period->getLabel();
+            $periodPoints[$i]["points"] = $points;
+            $periodPoints[$i]["euros"] = $points  * self::coefficientEuros;
+            $i++;
+        }
+
+        var_dump($periodPoints);
 
         return $this->render('pulseup/process.html.twig', [
         ]);
