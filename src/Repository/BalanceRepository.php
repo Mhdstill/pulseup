@@ -53,8 +53,8 @@ class BalanceRepository extends ServiceEntityRepository
             ->select('sum(s.points) as total')
             ->where('s.userId = :userId')
             ->andWhere('s.periodId = :periodId')
-            ->setParameter('userId', $userId)
-            ->setParameter('periodId', $periodId)
+            ->setParameter('user_id', $userId)
+            ->setParameter('period_id', $periodId)
             ->getQuery()
             ->getResult()
             ;
