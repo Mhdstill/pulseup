@@ -56,7 +56,7 @@ class BalanceRepository extends ServiceEntityRepository
             ->setParameter('userId', $userId)
             ->setParameter('periodId', $periodId)
             ->getQuery()
-            ->getResult()
+            ->getOneOrNullResult()
             ;
 
         return $query;
