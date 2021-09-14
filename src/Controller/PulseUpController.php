@@ -58,6 +58,9 @@ class PulseUpController extends AbstractController
                     $points += $balanceService->fourthProductCalculate($line[4]);
 
                     $currentDate = new \DateTime();
+                    $date = $line[count($line)-1];
+                    var_dump($date);
+
                     $period = $periodRepository->findOneByDate($currentDate);
 
                     if($period) {
@@ -75,7 +78,7 @@ class PulseUpController extends AbstractController
                 fclose($handle);
             }
 
-            return $this->redirectToRoute('user_balance',["id"=>123456789]);
+          //  return $this->redirectToRoute('user_balance',["id"=>123456789]);
         }
 
         return $this->render('pulseup/index.html.twig', [
