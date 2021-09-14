@@ -93,7 +93,7 @@ class PulseUpController extends AbstractController
         $i = 0;
         foreach($periods as $period){
             $points = $balanceRepository->getSum($id, $period->getId());
-            var_dump($points);
+            echo "@@@".$points."@@@ <br\>";
             $periodPoints[$i]["period"] = $period->getLabel();
             $periodPoints[$i]["points"] = $points;
             $periodPoints[$i]["euros"] = $points  * self::coefficientEuros;

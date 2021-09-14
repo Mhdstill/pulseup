@@ -51,10 +51,10 @@ class BalanceRepository extends ServiceEntityRepository
     public function getSum($userId, $periodId){
         $query =  $this->createQueryBuilder('s')
             ->select('sum(s.points) as total')
-            ->where('s.userId = :userId')
-            ->andWhere('s.periodId = :periodId')
-            ->setParameter('user_id', $userId)
-            ->setParameter('period_id', $periodId)
+            ->where('s.user_id = :userId')
+            ->andWhere('s.period_id = :periodId')
+            ->setParameter('userId', $userId)
+            ->setParameter('periodId', $periodId)
             ->getQuery()
             ->getResult()
             ;
