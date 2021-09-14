@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Balance;
 use App\Entity\User;
+use App\Repository\BalanceRepository;
+use App\Repository\PeriodRepository;
 use App\Repository\UserRepository;
 use App\Service\BalanceService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +19,7 @@ class PulseUpController extends AbstractController
     /**
      * @Route("/pulseup/form", name="pulse_up")/home/digiteka/Bureau/symfony-bohemebox
      */
-    public function index(Request $request, BalanceService $balanceService, UserRepository $userRepository): Response
+    public function index(Request $request, BalanceService $balanceService, UserRepository $userRepository, PeriodRepository $periodRepository): Response
     {
         $form = $this->createForm(PulseUpTypeFormType::class);
 
@@ -37,6 +40,7 @@ class PulseUpController extends AbstractController
 
                     $entityManager = $this->getDoctrine()->getManager();
 
+                    //ADD USER IN DB
                     $userId = $line[0];
                     $user = $userRepository->find($userId);
                     if (!$user) {
@@ -46,12 +50,21 @@ class PulseUpController extends AbstractController
                         $entityManager->flush();
                     }
 
-                    //CREATE BALANCE IN DB
+                    //CALCULATE POINTS
                     $points = 0;
                     $points += $balanceService->firstProductCalculate($line[1]);
                     $points += $balanceService->secondProductCalculate($line[2]);
                     $points += $balanceService->thirdProductCalculate($line[3]);
                     $points += $balanceService->fourthProductCalculate($line[4]);
+
+                    $currentDate = new \DateTime();
+                    $period = $periodRepository->findOneByDate($currentDate);
+
+                    //ADD BALANCE IN DB
+                    $balance = new Balance();
+                    $balance->setPoints($points);
+                    $balance->setUserId($userId);
+                    $balance->setPeriodId($period->getId());
 
                     echo "@@@" . $points . "@@@<br/>";
 
