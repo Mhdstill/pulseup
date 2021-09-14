@@ -59,13 +59,15 @@ class PulseUpController extends AbstractController
 
                     $currentDate = new \DateTime();
                     $period = $periodRepository->findOneByDate($currentDate);
-                    var_dump($period);
 
-                    //ADD BALANCE IN DB
-                   // $balance = new Balance();
-                  //  $balance->setPoints($points);
-                 //   $balance->setUserId($userId);
-                 //   $balance->setPeriodId($period->getId());
+                    if($period) {
+                        $balance = new Balance();
+                        $balance->setPoints($points);
+                        $balance->setUserId($userId);
+                        $balance->setPeriodId($period);
+                        $entityManager->persist($user);
+                        $entityManager->flush();
+                    }
 
                     echo "@@@" . $points . "@@@<br/>";
 
