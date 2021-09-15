@@ -86,7 +86,7 @@ class PulseUpController extends AbstractController
     }
 
     /**
-     * @Route("/user/{id}/balance", name="user_balance")
+     * @Route("/pulseup/user/{id}/balance", name="user_balance")
      */
     public function userBalance($id, BalanceService $balanceService, BalanceRepository $balanceRepository, UserRepository $userRepository, PeriodRepository $periodRepository): Response
     {
