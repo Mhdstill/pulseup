@@ -51,8 +51,8 @@ class PeriodRepository extends ServiceEntityRepository
     public function findOneByDate($date): ?Period
     {
         return $this->createQueryBuilder('p')
-            ->where('p.date1 < :date')
-            ->andWhere('p.date2 > :date')
+            ->where('p.date1 <= :date')
+            ->andWhere('p.date2 >= :date')
             ->setParameter('date', $date)
             ->getQuery()
             ->getOneOrNullResult()
